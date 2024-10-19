@@ -55,6 +55,67 @@
 
     // Có thể tách ra nhiều hàm con
     // Submit tất cả code trong 1 file .html
-    function addMemberCard(d) {}
+    function addMemberCard(d) {
+      const container = document.createElement("div");
+      container.id = `egg-${d}`;
+      container.classList.add("container", "not-reveal");
+
+      const name = document.createElement("h1");
+      name.classList.add("egg-name");
+      name.textContent = data[d].name;
+
+      const btn = document.createElement("button");
+      btn.classList.add("egg-btn");
+      btn.textContent = "Reveal";
+
+      container.appendChild(name);
+      container.appendChild(btn);
+
+      document.body.appendChild(container);
+    }
+
+    addMemberCard(1);
+    addMemberCard(2);
+    addMemberCard(3);
+    addMemberCard(4);
+
+    const containers = document.querySelectorAll(".container");
+
+    containers.forEach((container) => {
+      container.addEventListener("click", (e) => {
+        if (e.target.tagName === "BUTTON") {
+          const eggInf = document.createElement("div");
+          eggInf.classList.add("egg-inf");
+
+          const age = document.createElement("p");
+          age.classList.add("egg-age");
+          age.textContent = `Age: ${new Date().getFullYear() - data[container.id.split("-")[1]].birthdate.getFullYear()}`;
+
+          const ban = document.createElement("p");
+          ban.classList.add("egg-ban");
+          ban.textContent = `Ban: ${data[container.id.split("-")[1]].ban}`;
+
+          const role = document.createElement("p");
+          role.classList.add("egg-role");
+          role.textContent = `Chuc vu: ${data[container.id.split("-")[1]]["chuc vu"] || "thanh vien"}`;
+
+          eggInf.appendChild(age);
+          eggInf.appendChild(ban);
+          eggInf.appendChild(role);
+
+          container.appendChild(eggInf);
+
+          container.classList.remove("not-reveal");
+          container.classList.add("reveal");
+
+          e.target.textContent = "Hide";
+        } else {
+          container.querySelector(".egg-inf").remove();
+          container.classList.remove("reveal");
+          container.classList.add("not-reveal");
+          e.target.textContent = "Reveal";
+        }
+      });
+    });
   </script>
 </html>
